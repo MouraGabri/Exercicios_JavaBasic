@@ -12,6 +12,6 @@ public class Exercicio4 {
         double area = largura * altura;
         System.out.print("A área do Retângulo é: " + area);
         ler.close();
-    }
 
+    }
 }

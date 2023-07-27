@@ -13,7 +13,7 @@ public class Exercicio3 {
         System.out.println("Temperatura convertida para Fahrenheit: " + calculoFahrenheit + "\u00B0F");
 
         double calculoKevin = celsius + 273.15;
-        System.out.println("Temperatura convertida para Kevin: " + calculoKevin + "\u00B0K");
+        System.out.println("Temperatura convertida para Kelvin: " + calculoKevin + "\u00B0K");
         ler.close();
     }
 
