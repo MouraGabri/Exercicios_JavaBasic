@@ -14,27 +14,27 @@ public class Exercicio5 {
                 { 1.0, 2.5, 3.7 }
         };
 
-        // Imprime a matriz em formato de tabela e calcula a soma de cada coluna
         System.out.println("    ---Matriz---");
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
-                System.out.print(("|") + matriz[i][j] + ("|") + "  ");
+                System.out.print(("|") + matriz[i][j] + ("|") + "  ");// Imprime a matriz em forma de tabela
             }
-            System.out.println(); // Cria uma nova linha após imprimir cada linha da matriz
+            System.out.println(); // Responsavel por criar uma nova linha no console, após cada linha da matriz
+                                  // ser impressa
         }
 
-        // entender explicação dessa matriz/entender o decimal for(Anotar no caderno),Se
-        // precisar anotar sobre a matriz, perfeito
-
-        // Calcula e imprime a soma de cada coluna
         System.out.println("Soma das colunas:");
-        for (int j = 0; j < matriz[0].length; j++) {
+        for (int j = 0; j < matriz.length; j++) {
+            ;// vai percorrer todas as colunas da matriz
             double somaColuna = 0.0;
             for (int i = 0; i < matriz.length; i++) {
-                somaColuna += matriz[i][j]; // Calcula a soma da coluna j
+                ;// percorre as linhas,passando os valores para a variavel soma
+                somaColuna += matriz[i][j]; // Calcula a soma da coluna passando o valor da linha[i] e coluna atual[j]
             }
             DecimalFormat formato = new DecimalFormat("0.00");
             System.out.println("Coluna " + j + ": " + formato.format(somaColuna));
         }
+
     }
+
 }
