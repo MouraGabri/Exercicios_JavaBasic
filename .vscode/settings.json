@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "Modulo3.java"
+        "Modulo3.java",
+        "ProjectBasicJava.java"
     ],
     "java.debug.settings.onBuildFailureProceed": true
 }
