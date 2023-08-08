@@ -7,13 +7,22 @@ public class Exercicio2 {
         MediaAritmetica(Media);
     }
 
-    public static int MediaAritmetica(int Media[]) {
+    public static double MediaAritmetica(int Media[]) {
         System.out.println("---Valores do Array:---");
-        {
-            for (int i = 0; i < Media.length; i++) {
-                System.out.print("|" + Media[i] + "|");
-            }
-            return 0;
+        double media = 0;
+
+        for (int i = 0; i < Media.length; i++) {
+            System.out.print("|" + Media[i] + "|");
+            media += Media[i];
+
         }
+        System.out.println("\n--------------------");
+
+        System.out.println("Média dos Valores do Array:");
+        media = media / Media.length;
+        System.out.println(media);
+
+        return media;
+
     }
 }
