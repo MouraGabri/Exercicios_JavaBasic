@@ -8,6 +8,8 @@ public class Program {
     public static void main(String[] args) {
         Scanner ler = new Scanner(System.in);
         int escolha;
+        String ListaTarefas[] = { "Segunda - Feira", "Terça - Feira", "Quarta - Feira", "Quinta - Feira",
+                "Sexta - Feira" };// Matriz criada para o Adicionar Tarefas
         do {
             System.out
                     .println(
@@ -21,7 +23,7 @@ public class Program {
             switch (escolha) {
 
                 case 1:
-                    AdicionarTarefasLista(AdicionarTerefasLista);
+                    AdicionarTarefasLista(ListaTarefas);
                     break;
                 case 2:
                     System.out.print("Remova tarefas da sua lista");
@@ -39,11 +41,17 @@ public class Program {
 
     }
 
-    public static void AdicionarTarefasLista(String[][] AdicionarTarefasLista) {
-        String ListaTarefas[][] = new String[7][7];// matriz com 7 dias na semana
+    public static void AdicionarTarefasLista(String[] AdicionarTarefasLista) {
+        Scanner ler = new Scanner(System.in);
+        System.out.println("---Adicione Tarefas na sua lista---");
+
         for (int i = 0; i < AdicionarTarefasLista.length; i++) {
+            System.out.print("Adicione Sua tarefa na:" + AdicionarTarefasLista[i] + "\n" + ("-->"));
+            String tarefa = ler.nextLine();
+            AdicionarTarefasLista[i] = tarefa;
 
         }
 
     }
+
 }
