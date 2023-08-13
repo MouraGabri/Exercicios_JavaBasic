@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Cardapio {
 
-	public static void main(String[] args, ) {
+	public static void main(String[] args) {
 		Scanner ler = new Scanner(System.in);
 		int escolha;
 		String[][] CadastroUsuario = new String[1][4]; // Matriz para cadastrar os usuários
@@ -12,7 +12,7 @@ public class Cardapio {
 				{ "Primavera", "4547812", "Pizzas", "R$70,00" }, };
 		do {
 			System.out.println("\n-----Bem vindo-----\n" + "Escolha uma das opções que deseja");
-			System.out.println("Opção 1 --> Realize seu cadastro\n" +
+			System.out.print("Opção 1 --> Realize seu cadastro\n" +
 					"Opção 2 --> Fazer pedido\n" +
 					"Opção 3 --> Efetuar pagamento\n" +
 					"Opção 4 --> Mostrar pedido\n" +
@@ -24,10 +24,10 @@ public class Cardapio {
 					System.out.println(RealizarCadastro(CadastroUsuario, ler));
 					break;
 				case 2:
-					System.out.println(ListarRestaurantes(Restaurantes, ler));
+					ListarRestaurantes(Restaurantes, ler);
 					break;
 				case 3:
-					RealizarPagamento(PratosRestaurantes, ler);
+					FazerPagamento(Restaurantes, null, ler);
 					break;
 				case 4:
 					System.out.println("Mostrar pedido");
@@ -111,7 +111,7 @@ public class Cardapio {
 		}
 	}
 
-	public static String ListarRestaurantes(String[][] Restaurantes, Scanner ler) {
+	public static void ListarRestaurantes(String[][] Restaurantes, Scanner ler) {
 		String[][] PratosRestaurantes = new String[][] { { "Arroz", "Feijão", "Ovo", "Fritas", "Salada" },
 				{ "Calabresa", "Coração", "4 Queijos", "Strogonof", "Camarão" }, };
 
@@ -120,6 +120,7 @@ public class Cardapio {
 				.println(
 						"\n                 ===Restaurantes===\n"
 								+ "    Nome         CNPJ          Pratos        Valores\n");
+		boolean restauranteEncontrado = false;
 		for (int i = 0; i < Restaurantes.length; i++) {
 			for (int j = 0; j < Restaurantes[i].length; j++) {
 				String formattedValue = String.format("| %-12s", Restaurantes[i][j]);
@@ -128,28 +129,80 @@ public class Cardapio {
 			System.out.println("|");
 
 		}
-		System.out.println(" ");
-		System.out.println(
-				"              ===Faça seu pedido===\n" + ("        Escolha qual restaurante deseja comprar\n"));
-		System.out.print("--> Nome do restaurante:");
-		String nomeRestaurante = ler.next();
-		ler.nextLine();
-		for (int i = 0; i < Restaurantes.length; i++) {
-			if (nomeRestaurante.equalsIgnoreCase(Restaurantes[i][0])) {
-				System.out.println("Restaurante: " + Restaurantes[i][0]);
-				System.out.println("Pratos disponíveis:");
-				for (String prato : PratosRestaurantes[i]) {
-					System.out.println("- " + prato);
+		int tentativa = 1;
+		int tentativaMax = 2;
+
+		while (!restauranteEncontrado && tentativa <= tentativaMax) {
+			System.out.println(" ");
+			System.out.println(
+					"              ===Faça seu pedido===\n" + ("        Escolha qual restaurante deseja comprar\n"));
+			System.out.print("--> Nome do restaurante:");
+			String nomeRestaurante = ler.next();
+			ler.nextLine();
+
+			while (!restauranteEncontrado && tentativa <= tentativaMax) {
+				System.out.println(" ");
+				System.out.println(
+						"              ===Faça seu pedido===\n"
+								+ ("        Escolha qual restaurante deseja comprar\n"));
+				System.out.print("--> Nome do restaurante:");
+				nomeRestaurante = ler.next();
+				ler.nextLine();
+
+				for (int i = 0; i < Restaurantes.length; i++) {
+					if (nomeRestaurante.equalsIgnoreCase(Restaurantes[i][0])) {
+						System.out.println("-->Restaurante: " + Restaurantes[i][0]);
+						System.out.println("Cardápio:");
+						for (String prato : PratosRestaurantes[i]) {
+							System.out.println("- " + prato);
+						}
+						restauranteEncontrado = true;
+						break;
+					}
 				}
-				break;
+				if (!restauranteEncontrado) {
+					System.out.println("Restaurante não encontrado\n");
+					System.out.println("Tentativa " + tentativa + " de " + tentativaMax);
+					tentativa++;
+				}
 			}
 
+			if (restauranteEncontrado) {
+				for (int i = 0; i < Restaurantes.length; i++) {
+					if (nomeRestaurante.equalsIgnoreCase(Restaurantes[i][0])) {
+						System.out.println(" Valor total: " + Restaurantes[i][3]);
+						break;
+					}
+				}
+			}
 		}
-		return "";
 
 	}
 
-	public static void RealizarPagamento(String[][] PratosRestaurantes, Scanner ler) {
-		System.out.println("TESTE");
+	public static void FazerPagamento(String[][] Restaurantes, String nomeRestaurante, Scanner ler) {
+		int escolhaUsuario;
+		int senha;
+		int senhaInvisivel;
+		double taixaServiço = 0.10;
+		System.out.print("    ===Escolha a forma de pagamento===\n" + ("[1]--> Débito\n")
+				+ ("[2]--> Crédito\n" + ("[3]--> Dinheiro\n" + ("-->"))));
+		escolhaUsuario = ler.nextInt();
+		if (escolhaUsuario == 1) {
+			System.out.println("===Forma de Pagamento Débito===");
+			double resultado = 25.00 * taixaServiço;
+			double total = 25.00 + resultado;
+			String resultadoFormatado = String.format("%.2f", resultado);
+			System.out.println("Valor total da sua compra = " + total + ("R$"));
+			System.out.print("Informe sua senha:");
+			senha = ler.nextInt();
+			try {
+				Thread.sleep(2000); // Pausa por 3000 milissegundos (3 segundos)
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("........Verificando senha.......\n" + ("Compra aprovada"));
+
+		}
+
 	}
 }
