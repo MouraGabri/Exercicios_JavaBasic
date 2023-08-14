@@ -5,34 +5,35 @@ public class Cardapio {
 
 	public static void main(String[] args) {
 		Scanner ler = new Scanner(System.in);
+
 		int escolha;
 		String[][] CadastroUsuario = new String[1][4]; // Matriz para cadastrar os usuários
 		String[][] Restaurantes = {
 				{ "Paladar", "7895446", "Marmitas", "R$20,00" },
-				{ "Primavera", "4547812", "Pizzas", "R$70,00" }, };
+				{ "Primavera", "4547812", "Pizzas", "R$70,00" }
+		};
 		do {
 			System.out.println("\n-----Bem vindo-----\n" + "Escolha uma das opções que deseja");
 			System.out.print("Opção 1 --> Realize seu cadastro\n" +
 					"Opção 2 --> Fazer pedido\n" +
 					"Opção 3 --> Efetuar pagamento\n" +
-					"Opção 4 --> Mostrar pedido\n" +
+					"Opção 4 --> Acompanhar pedido\n" +
 					"Opção 5 --> Digite 0 para sair do programa\n" + "-->");
 			escolha = ler.nextInt();
 			switch (escolha) {
 
 				case 1:
-					System.out.println(RealizarCadastro(CadastroUsuario, ler));
+					RealizarCadastro(CadastroUsuario, ler);
 					break;
 				case 2:
 					ListarRestaurantes(Restaurantes, ler);
 					break;
 				case 3:
-					FazerPagamento(Restaurantes, ler);
+					FazerPagamento(Restaurantes, ler, null, null);
 					break;
 				case 4:
-					System.out.println("Mostrar pedido");
+					AcompanharPedido(null, null, null, null);
 					break;
-
 				default:
 					break;
 			}
@@ -43,7 +44,7 @@ public class Cardapio {
 
 	}
 
-	public static String RealizarCadastro(String[][] CadastroUsuario, Scanner ler) {
+	public static void RealizarCadastro(String[][] CadastroUsuario, Scanner ler) {
 		System.out.println("-----------------------------------------------------");
 		System.out.println("===Realize seu cadastro===");
 
@@ -66,13 +67,10 @@ public class Cardapio {
 		CadastroUsuario[0][3] = String.valueOf(senhaAleatoria);
 
 		LoginUsuario(CadastroUsuario, ler);
-
-		return "";
 	}
 
 	public static void LoginUsuario(String[][] CadastroUsuario, Scanner ler) {
 		System.out.println("-----------------------------------------------------");
-
 		System.out.println("===Faça seu login===");
 		int maxTentativa = 2;
 		int tentativa = 0;
@@ -111,7 +109,9 @@ public class Cardapio {
 		}
 	}
 
-	public static void ListarRestaurantes(String[][] Restaurantes, Scanner ler) {
+	public static String ListarRestaurantes(String[][] Restaurantes, Scanner ler) {
+		String nomeRestauranteEscolhido = null;
+		String valorTotalRestaurante = null; // Inicialize aqui
 		String[][] PratosRestaurantes = new String[][] {
 				{ "Arroz", "Feijão", "Ovo", "Fritas", "Salada" },
 				{ "Calabresa", "Coração", "4 Queijos", "Strogonof", "Camarão" },
@@ -141,17 +141,23 @@ public class Cardapio {
 			for (int i = 0; i < Restaurantes.length; i++) {
 				if (nomeRestaurante.equalsIgnoreCase(Restaurantes[i][0])) {
 					System.out.println("-->Restaurante: " + Restaurantes[i][0]);
-					System.out.println("Cardápio:");
+
+					System.out.println(" Cardápio:");
 					for (String prato : PratosRestaurantes[i]) {
 						System.out.println("- " + prato);
 					}
 					System.out.println("Valor total: " + Restaurantes[i][3]);
+					nomeRestaurante = Restaurantes[i][0];
+					valorTotalRestaurante = Restaurantes[i][3];
+
 					restauranteEncontrado = true;
-					System.out.println("     ===Realize o pagamento para continuar prosseguir seu atendimento===");
+					System.out.println("     ===Realize o pagamento para  prosseguir seu atendimento===");
 					System.out.println("-----------------------------------------------------");
 
 					break;
+
 				}
+
 			}
 
 			if (!restauranteEncontrado) {
@@ -163,32 +169,61 @@ public class Cardapio {
 					System.out.println("===Número máximo de tentativas excedido. Saindo do menu de escolha===");
 				}
 			}
-
+			FazerPagamento(Restaurantes, ler, valorTotalRestaurante, nomeRestaurante);
 		}
+		return " ";
 	}
 
-	public static void FazerPagamento(String[][] Restaurantes, Scanner ler) {
+	public static void FazerPagamento(String[][] Restaurantes, Scanner ler, String valorTotalRestaurante,
+			String nomeRestauranteEscolhido) {
 		int escolhaUsuario;
-		System.out.print("    ===Escolha a forma de pagamento===\n" + "[1]--> Débito\n" + "[2]--> Crédito\n"
-				+ "[3]--> Dinheiro\n" + "-->");
+
+		System.out.println("          Preencha os campos para realizar seu Pedido");
+		System.out.print("--> Bairro:");
+		String endereco = ler.nextLine();
+		System.out.print("--> Rua/N \u00BA:");
+		String rua = ler.nextLine();
+		System.out.println("-----------------------------------------------------");
+
+		System.out.print("    ===Escolha a forma de pagamento===\n" + "[1]--> Débito\n" + "[2]--> Crédito\n" + ("-->"));
+
 		escolhaUsuario = ler.nextInt();
 
-		if (escolhaUsuario == 1) {
-			for (int i = 0; i < Restaurantes.length; i++) {
-				System.out.println("Valor total: " + Restaurantes[i][3]);
+		if (valorTotalRestaurante != null) {
+			if (escolhaUsuario == 1 || escolhaUsuario == 2) {
+				// Lógica para pagamento com débito ou crédito
+				System.out.println("Sua compra é: R$" + valorTotalRestaurante);
+				System.out.print("Informe sua senha:");
+				int senha = ler.nextInt();
+				System.out.println("Verificando Pagamento....");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Compra aprovada!\n" + ("         ===Emitindo sua nota fiscal==="));
+				System.out.println("-----------------------------------------------------");
+
 			}
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			AcompanharPedido(nomeRestauranteEscolhido, valorTotalRestaurante, endereco, rua);
+
 		}
 
-		else if (escolhaUsuario == 2) {
-			System.out.println("TESTE");
-		}
-
-		else if (escolhaUsuario == 3) {
-
-		}
 	}
 
-	public static void MostrarPedido() {
-		System.out.println("");
+	public static void AcompanharPedido(String valorTotalRestaurante, String nomeRestaurante, String endereco,
+			String rua) {
+		System.out.println("===== Nota Fiscal =====");
+		System.out.println("Valor total: " + nomeRestaurante); 
+		System.out.println("Restaurante: " + valorTotalRestaurante);
+		System.out.println("Bairro: " + endereco);
+		System.out.println("Rua/Nº: " + rua);
+		System.out.println("Tempo estimado:" + ("40 min"));
+		System.out.println("=======================");
 	}
 }
