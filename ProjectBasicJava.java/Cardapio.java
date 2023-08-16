@@ -7,8 +7,8 @@ public class Cardapio {
 		Scanner ler = new Scanner(System.in);
 
 		int escolha;
-		String[][] CadastroUsuario = new String[1][4]; // Matriz para cadastrar os usuários
-		String[][] Restaurantes = {
+		String[][] cadastroUsuario = new String[1][4]; // Matriz para cadastrar os usuários
+		String[][] restaurantes = {
 				{ "Paladar", "7895446", "Marmitas", "R$20,00" },
 				{ "Primavera", "4547812", "Pizzas", "R$70,00" }
 		};
@@ -23,16 +23,16 @@ public class Cardapio {
 			switch (escolha) {
 
 				case 1:
-					RealizarCadastro(CadastroUsuario, ler);
+					realizarCadastro(cadastroUsuario, ler);
 					break;
 				case 2:
-					ListarRestaurantes(Restaurantes, ler);
+					listarRestaurantes(restaurantes, ler);
 					break;
 				case 3:
-					FazerPagamento(Restaurantes, ler, null, null);
+					fazerPagamento(restaurantes, ler, null, null);
 					break;
 				case 4:
-					AcompanharPedido(null, null, null, null);
+					acompanharPedido(null, null, null, null);
 					break;
 				default:
 					break;
@@ -44,7 +44,7 @@ public class Cardapio {
 
 	}
 
-	public static void RealizarCadastro(String[][] CadastroUsuario, Scanner ler) {
+	public static void realizarCadastro(String[][] cadastroUsuario, Scanner ler) {
 		System.out.println("-----------------------------------------------------");
 		System.out.println("===Realize seu cadastro===");
 
@@ -55,21 +55,21 @@ public class Cardapio {
 		ler.nextLine();
 
 		System.out.print("Nome:");
-		CadastroUsuario[0][0] = ler.nextLine();
+		cadastroUsuario[0][0] = ler.nextLine();
 
 		System.out.print("Idade:");
-		CadastroUsuario[0][1] = ler.nextLine();
+		cadastroUsuario[0][1] = ler.nextLine();
 
 		System.out.print("CPF:");
-		CadastroUsuario[0][2] = ler.nextLine();
+		cadastroUsuario[0][2] = ler.nextLine();
 
 		System.out.println("Sua senha é:" + senhaAleatoria);
-		CadastroUsuario[0][3] = String.valueOf(senhaAleatoria);
+		cadastroUsuario[0][3] = String.valueOf(senhaAleatoria);
 
-		LoginUsuario(CadastroUsuario, ler);
+		loginUsuario(cadastroUsuario, ler);
 	}
 
-	public static void LoginUsuario(String[][] CadastroUsuario, Scanner ler) {
+	public static void loginUsuario(String[][] cadastroUsuario, Scanner ler) {
 		System.out.println("-----------------------------------------------------");
 		System.out.println("===Faça seu login===");
 		int maxTentativa = 2;
@@ -83,8 +83,8 @@ public class Cardapio {
 			System.out.print("Informe sua senha:");
 			String senha = ler.nextLine();
 
-			for (int i = 0; i < CadastroUsuario.length; i++) {
-				if (nome.equalsIgnoreCase(CadastroUsuario[i][0]) && senha.equalsIgnoreCase(CadastroUsuario[i][3])) {
+			for (int i = 0; i < cadastroUsuario.length; i++) {
+				if (nome.equalsIgnoreCase(cadastroUsuario[i][0]) && senha.equalsIgnoreCase(cadastroUsuario[i][3])) {
 					System.out.println("==Seja bem vindo== " + nome);
 					loginSucesso = true; // Defina como true para sair do loop
 					break; // Saia do loop de verificação
@@ -109,10 +109,9 @@ public class Cardapio {
 		}
 	}
 
-	public static String ListarRestaurantes(String[][] Restaurantes, Scanner ler) {
-		String nomeRestauranteEscolhido = null;
+	public static String listarRestaurantes(String[][] Restaurantes, Scanner ler) {
 		String valorTotalRestaurante = null; // Inicialize aqui
-		String[][] PratosRestaurantes = new String[][] {
+		String[][] pratosRestaurantes = new String[][] {
 				{ "Arroz", "Feijão", "Ovo", "Fritas", "Salada" },
 				{ "Calabresa", "Coração", "4 Queijos", "Strogonof", "Camarão" },
 		};
@@ -143,7 +142,7 @@ public class Cardapio {
 					System.out.println("-->Restaurante: " + Restaurantes[i][0]);
 
 					System.out.println(" Cardápio:");
-					for (String prato : PratosRestaurantes[i]) {
+					for (String prato : pratosRestaurantes[i]) {
 						System.out.println("- " + prato);
 					}
 					System.out.println("Valor total: " + Restaurantes[i][3]);
@@ -153,6 +152,7 @@ public class Cardapio {
 					restauranteEncontrado = true;
 					System.out.println("     ===Realize o pagamento para  prosseguir seu atendimento===");
 					System.out.println("-----------------------------------------------------");
+					fazerPagamento(Restaurantes, ler, valorTotalRestaurante, nomeRestaurante);
 
 					break;
 
@@ -169,12 +169,12 @@ public class Cardapio {
 					System.out.println("===Número máximo de tentativas excedido. Saindo do menu de escolha===");
 				}
 			}
-			FazerPagamento(Restaurantes, ler, valorTotalRestaurante, nomeRestaurante);
 		}
+
 		return " ";
 	}
 
-	public static void FazerPagamento(String[][] Restaurantes, Scanner ler, String valorTotalRestaurante,
+	public static void fazerPagamento(String[][] Restaurantes, Scanner ler, String valorTotalRestaurante,
 			String nomeRestauranteEscolhido) {
 		int escolhaUsuario;
 
@@ -206,20 +206,20 @@ public class Cardapio {
 
 			}
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			AcompanharPedido(nomeRestauranteEscolhido, valorTotalRestaurante, endereco, rua);
+			acompanharPedido(nomeRestauranteEscolhido, valorTotalRestaurante, endereco, rua);
 
 		}
 
 	}
 
-	public static void AcompanharPedido(String valorTotalRestaurante, String nomeRestaurante, String endereco,
+	public static void acompanharPedido(String valorTotalRestaurante, String nomeRestaurante, String endereco,
 			String rua) {
 		System.out.println("===== Nota Fiscal =====");
-		System.out.println("Valor total: " + nomeRestaurante); 
+		System.out.println("Valor total: " + nomeRestaurante);
 		System.out.println("Restaurante: " + valorTotalRestaurante);
 		System.out.println("Bairro: " + endereco);
 		System.out.println("Rua/Nº: " + rua);
